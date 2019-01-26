@@ -1,14 +1,13 @@
 {
-  "main.css": "/react-github/static/css/main.f2209cac.chunk.css",
-  "main.js": "/react-github/static/js/main.1d6db637.chunk.js",
-  "main.js.map": "/react-github/static/js/main.1d6db637.chunk.js.map",
-  "static/js/1.fa92c112.chunk.js": "/react-github/static/js/1.fa92c112.chunk.js",
-  "static/js/1.fa92c112.chunk.js.map": "/react-github/static/js/1.fa92c112.chunk.js.map",
+  "main.css": "/react-github/static/css/main.7494e7c7.chunk.css",
+  "main.js": "/react-github/static/js/main.131eb5a3.chunk.js",
+  "main.js.map": "/react-github/static/js/main.131eb5a3.chunk.js.map",
+  "static/js/1.4a34e45d.chunk.js": "/react-github/static/js/1.4a34e45d.chunk.js",
+  "static/js/1.4a34e45d.chunk.js.map": "/react-github/static/js/1.4a34e45d.chunk.js.map",
   "runtime~main.js": "/react-github/static/js/runtime~main.67a2cc3a.js",
   "runtime~main.js.map": "/react-github/static/js/runtime~main.67a2cc3a.js.map",
-  "static/media/logo.svg": "/react-github/static/media/logo.5d5d9eef.svg",
-  "static/css/main.f2209cac.chunk.css.map": "/react-github/static/css/main.f2209cac.chunk.css.map",
+  "static/css/main.7494e7c7.chunk.css.map": "/react-github/static/css/main.7494e7c7.chunk.css.map",
   "index.html": "/react-github/index.html",
-  "precache-manifest.0fa85e7ad1fe620944ced4f819442ab1.js": "/react-github/precache-manifest.0fa85e7ad1fe620944ced4f819442ab1.js",
+  "precache-manifest.348a0d719c1bf522162f4af97465aba3.js": "/react-github/precache-manifest.348a0d719c1bf522162f4af97465aba3.js",
   "service-worker.js": "/react-github/service-worker.js"
 }
