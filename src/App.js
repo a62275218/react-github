@@ -15,7 +15,7 @@ class App extends Component {
                     <TopNav/>
                     <Suspense fallback={<Loading global={true}/>}>
                         <Switch>
-                            <Route path={process.env.PUBLIC_URL} component={props=><Home/>} exact/>
+                            <Route path='/' component={props=><Home/>} exact/>
                             <Route path={'/top-news'} component={props=><TopNews/>}/>
                             <Route render={(props) => (404)}/>
                         </Switch>
