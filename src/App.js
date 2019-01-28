@@ -10,12 +10,12 @@ const TopNews = lazy(() => import('./components/TopNews'));
 class App extends Component {
     render() {
         return (
-            <Router>
+            <Router basename={process.env.PUBLIC_URL}>
                 <div>
                     <TopNav/>
-                    <Suspense fallback={<Loading/>}>
+                    <Suspense fallback={<Loading global={true}/>}>
                         <Switch>
-                            <Route path={'/'} component={props=><Home/>} exact/>
+                            <Route path={process.env.PUBLIC_URL} component={props=><Home/>} exact/>
                             <Route path={'/top-news'} component={props=><TopNews/>}/>
                             <Route render={(props) => (404)}/>
                         </Switch>

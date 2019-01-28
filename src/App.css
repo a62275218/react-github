@@ -18,6 +18,14 @@
   justify-content: center;
 }
 
+.loading-partial{
+  width:100%;
+  height:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .loading img{
   width:200px;
   height:200px;
@@ -178,7 +186,6 @@
 }
 
 .latest-list{
-  height:100vh;
 }
 
 .scroll-container{
@@ -204,4 +211,16 @@
 
 .latest-sub{
   color:gray;
+}
+
+@media only screen and (max-width: 768px) {
+  .news-content{
+    flex-direction: column;
+  }
+  .latest-wrapper{
+    display:none;
+  }
+  .news-wrapper{
+    width:100%;
+  }
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 const url = require('../../static/Spinner-1s-200px.gif');
 
-const Loading = () => {
+const Loading = (props) => {
     return (
-        <div className={'loading'}>
+        <div className={props.global?'loading':'loading-partial'}>
             <img src={url} alt="Loading..."/>
         </div>
     );

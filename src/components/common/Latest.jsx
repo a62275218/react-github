@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {newsapi} from '../../utils/http';
 import {convertDate, showTimeDiff} from "../../utils/date";
+import Loading from '../common/Loading'
 
 class Latest extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            articles: []
-        }
-        console.log(props)
+            articles: [],
+            loading: true
+        };
         this.goNewsDetail = this.props.goDetail.bind(this)
     }
 
@@ -29,16 +30,20 @@ class Latest extends Component {
             console.log(res)
         } catch (err) {
             console.log(err)
+        } finally {
+            this.setState({
+                loading:false
+            })
         }
     }
 
     render() {
-        const {articles} = this.state;
+        const {loading, articles} = this.state;
         return (
             <div className={'latest-wrapper'}>
                 <div className={'latest-container'}>
                     <div className={'latest-title'}>Latest News Worldwide</div>
-                    <div className={'scroll-container'}>
+                    {loading?<Loading/>:<div className={'scroll-container'}>
                         <div className={'latest-list'}>
                             {articles.map((item, index) => {
                                 return <div className={'latest-item'} key={index}>
@@ -46,14 +51,14 @@ class Latest extends Component {
                                         {showTimeDiff(item.publishedAt)}
                                     </div>
                                     <div className={'latest-item-title'}
-                                         onClick={()=>this.goNewsDetail(item.url)}
+                                         onClick={() => this.goNewsDetail(item.url)}
                                     >
                                         {item.title}
                                     </div>
                                 </div>
                             })}
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
         );
