@@ -15,7 +15,6 @@ class NewsTemplate extends Component {
     }
 
     async componentDidMount() {
-        console.log(this.props);
         let category;
         if(this.props.match.path ==='/top-news'){
             category = '';
@@ -34,7 +33,6 @@ class NewsTemplate extends Component {
                     articles: res.articles
                 })
             }
-            console.log(this.state)
         } catch (err) {
             console.log(err)
         } finally{

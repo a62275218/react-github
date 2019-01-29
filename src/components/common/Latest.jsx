@@ -15,7 +15,6 @@ class Latest extends Component {
 
 
     async componentDidMount() {
-        console.log(convertDate(null, true));
         try {
             let res = await newsapi.everything({
                 sources: 'google-news-au',
@@ -27,7 +26,6 @@ class Latest extends Component {
                     articles: res.articles
                 })
             }
-            console.log(res)
         } catch (err) {
             console.log(err)
         } finally {

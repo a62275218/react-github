@@ -157,7 +157,6 @@ class Home extends Component {
                     }, 100);
                 })
             }
-            console.log(this.state)
         } catch (err) {
             console.log(err)
         } finally {
@@ -174,11 +173,9 @@ class Home extends Component {
     };
 
     handleOptionChange = key => e => {
-        console.log(key);
         this.setState({
             [key]: e.target.value
         });
-        console.log(e.target.value)
     };
 
     handleInputChange = (e) => {
@@ -186,6 +183,10 @@ class Home extends Component {
             input: e.target.value
         })
     };
+
+    goNewsDetail(title) {
+        window.open(title)
+    }
 
     handleImgLoad=(e)=>{
     };
@@ -269,7 +270,7 @@ class Home extends Component {
                         <div className={'article-count'}>Found: {totalResults} Records</div>
                         {articles.map((item, index) => {
                             return <div key={index} className={'article-block'}>
-                                <div className={'article-frame'}>
+                                <div className={'article-frame'} onClick={()=>this.goNewsDetail(item.url)}>
                                     <div>{item.title}</div>
                                     <div className={'article-img'}>
                                         <img

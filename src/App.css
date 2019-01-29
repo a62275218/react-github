@@ -111,6 +111,10 @@
   box-shadow:0 8px 20px 0 rgba(0, 0, 0, 0.15);
 }
 
+.article-frame:hover{
+  cursor:pointer;
+}
+
 .article-img{
   max-width:100%;
   height:auto

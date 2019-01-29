@@ -2,7 +2,7 @@ import React, {Component, lazy, Suspense} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import TopNav from './components/common/TopNav';
 import Loading from './components/common/Loading';
-import {throttle} from './utils/function'
+import {throttle} from './utils/function';
 import './App.css';
 
 const Home = lazy(() => import('./components/Home'));
@@ -35,6 +35,12 @@ class App extends Component {
         }))
     };
 
+    closeToggle=()=>{
+        this.setState({
+            mobileOpen:false
+        })
+    }
+
     componentDidMount(){
         this.judgeWindowSize();
         window.addEventListener('resize',(e)=>{
@@ -46,11 +52,11 @@ class App extends Component {
         return (
             <Router basename={process.env.PUBLIC_URL}>
                 <div>
-                    <TopNav device={device} mobileOpen={mobileOpen} handleToggle={this.handleToggle}/>
+                    <TopNav device={device} mobileOpen={mobileOpen} closeToggle={this.closeToggle} handleToggle={this.handleToggle}/>
                     <Suspense fallback={<Loading global={true}/>}>
                         <Switch>
                             <Route path='/' component={props=><Home/>} exact/>
-                            <Route path={'/top-news'} key={'top-news'} render={props=><NewsTemplate {...props}/>}/>
+                            <Route path={'/top-news'} key={'top-news'} render={props=><NewsTemplate {...props}/>} onRouterEnter={match=>console.log(match)}/>
                             <Route path={'/business'} key={'business'} render={props=><NewsTemplate {...props}/>}/>
                             <Route path={'/entertainment'} key={'entertainment'} render={props=><NewsTemplate {...props}/>}/>
                             <Route path={'/general'} key={'general'} render={props=><NewsTemplate {...props}/>}/>

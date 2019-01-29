@@ -20,7 +20,7 @@ const activeEvent = (match, location) => {
 };
 
 const TopNav = (props) => {
-    const {device,mobileOpen,handleToggle} = props;
+    const {device,mobileOpen,handleToggle,closeToggle} = props;
 
     return (
         <div>
@@ -38,8 +38,10 @@ const TopNav = (props) => {
                                 <NavLink activeClassName={'top-link-active'}
                                          className={'top-link'}
                                          isActive={activeEvent}
+                                         onClick={closeToggle}
                                          to={element.url}
-                                         exact>
+                                         exact
+                                >
                                     {element.name}
                                 </NavLink>
                             </div>
