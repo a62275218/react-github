@@ -43,8 +43,10 @@ class Latest extends Component {
             <div className={'latest-wrapper'}>
                 <div className={'latest-container'}>
                     <div className={'latest-title'}>Latest News Worldwide</div>
-                    {loading?<Loading/>:<div className={'scroll-container'}>
+                    {loading?<Loading/>:
+                        <div className={'scroll-container'}>
                         <div className={'latest-list'}>
+                            {articles.length === 0? 'Lastest News haven\'t been updated yet':''}
                             {articles.map((item, index) => {
                                 return <div className={'latest-item'} key={index}>
                                     <div className={'latest-sub'}>

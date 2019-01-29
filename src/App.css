@@ -80,6 +80,45 @@
   margin-right:20px;
 }
 
+/*home list*/
+.article-list{
+  padding-top:80px;
+  background-color: #4eb3e5;
+  column-count: 4;
+  vertical-align: top;
+}
+
+.article-count{
+  background-color: #4eb3e5;
+  font-weight: bold;
+  color:#fff;
+  width:100%;
+  padding:30px;
+}
+
+.article-block{
+  padding:20px;
+  font-size:10px;
+  break-inside: avoid;
+}
+
+.article-frame{
+  display:flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding:5px;
+  width:100%;
+  box-shadow:0 8px 20px 0 rgba(0, 0, 0, 0.15);
+}
+
+.article-img{
+  max-width:100%;
+  height:auto
+}
+
+.article-img img{
+  width:100%;
+}
 
 /*top-nav*/
 .top-nav{
@@ -87,6 +126,7 @@
   top:0;
   left:0;
   width:100%;
+  z-index:10000;
   background-color: #354149;
   color:#fff;
   padding:10px 40px;
@@ -227,6 +267,13 @@
   color:gray;
 }
 
+/*bottom loading*/
+.bot-loading{
+  background-color: #4eb3e5;
+}
+
+
+/*mobile css*/
 @media only screen and (max-width: 768px) {
   .news-content{
     flex-direction: column;
@@ -237,4 +284,62 @@
   .news-wrapper{
     width:100%;
   }
+
+  .article-list {
+    column-count:1
+  }
+
+  .top-nav{
+    display:flex;
+  }
+}
+
+.mobile-menu{
+  padding:20px;
+  position:absolute;
+  top:60px;
+  left:0;
+  height:100vh;
+  background-color: #354149;
+  transition:left 0.5s ease-in-out;
+  -webkit-transition:left 0.5s ease-in-out;
+  -moz-transition:left 0.5s ease-in-out;
+  -ms-transition:left 0.5s ease-in-out;
+  -o-transition:left 0.5s ease-in-out;
+}
+
+.mobile-menu div{
+  margin-bottom: 20px;
+}
+
+.mobile-toggle{
+  border:2px solid #fff;
+  border-radius:4px;
+  padding:5px 0;
+  width:40px;
+  height:40px;
+  margin-right:50px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.mobile-toggle:hover{
+  cursor:pointer;
+}
+
+.mobile-toggle .line{
+  width:70%;
+  border:1px solid #fff;
+  border-radius:2px;
+}
+
+.hide{
+  left:-100%;
+  transition:left 0.5s ease-in-out;
+  -webkit-transition:left 0.5s ease-in-out;
+  -moz-transition:left 0.5s ease-in-out;
+  -ms-transition:left 0.5s ease-in-out;
+  -o-transition:left 0.5s ease-in-out;
 }

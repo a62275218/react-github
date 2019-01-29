@@ -15,10 +15,18 @@ class NewsTemplate extends Component {
     }
 
     async componentDidMount() {
+        console.log(this.props);
+        let category;
+        if(this.props.match.path ==='/top-news'){
+            category = '';
+        }else{
+            category = this.props.match.path.substr(1)
+        }
         try {
             let res = await newsapi.topHeadlines({
                 country: 'au',
-                pageSize: 5
+                pageSize: 10,
+                category:category
             });
             if (res.status === 'ok') {
                 this.setState({

@@ -13,17 +13,25 @@ const menu = [
     {name: 'Technology', url: '/technology'}
 ];
 
+
+
 const activeEvent = (match, location) => {
     return match
 };
 
-const TopNav = () => {
+const TopNav = (props) => {
+    const {device,mobileOpen,handleToggle} = props;
+
     return (
         <div>
-            {/*<div style={{marginTop: 120}}/>*/}
             <div className={'top-nav'}>
+                {device==='mobile'?<div className={'mobile-toggle'} onClick={handleToggle}>
+                    <span className={'line'}/>
+                    <span className={'line'}/>
+                    <span className={'line'}/>
+                </div>:''}
                 <div className={'top-logo'}>React News</div>
-                <div className={'top-menu'}>
+                <div className={device==='mobile'?`mobile-menu ${mobileOpen?'':'hide'}`:'top-menu'}>
                     {
                         menu.map((element, index) => {
                             return <div key={index}>
