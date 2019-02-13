@@ -1,30 +1,22 @@
-export const throttle = (fun, delay)=> {
-    let last, deferTimer
-    return function (args) {
-        let that = this;
-        let _args = arguments
-        let now = +new Date()
-        if (last && now < last + delay) {
-            clearTimeout(deferTimer);
-            deferTimer = setTimeout(function () {
-                last = now;
-                fun.apply(that, _args)
-            }, delay)
-        }else {
-            last = now;
-            fun.apply(that,_args)
+export const throttle = (method,duration)=>{
+    let  begin=new Date();
+    return function(){
+        let context=this, args=arguments, current=new Date();
+        if(current-begin>=duration){
+            method.apply(context,args);
+            begin=current;
         }
     }
 };
 
-export const debounce = (fun, delay)=>{
-    return function (args) {
-        let that = this
-        let _args = args
-        clearTimeout(fun.id)
-        fun.id = setTimeout(function () {
-            fun.call(that, _args)
-        }, delay)
+export const debounce = (method,delay)=>{
+    let timer=null;
+    return function(){
+        let context=this, args=arguments;
+        clearTimeout(timer);
+        timer=setTimeout(function(){
+            method.apply(context,args);
+        },delay);
     }
 };
 

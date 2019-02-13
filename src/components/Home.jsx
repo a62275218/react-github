@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {newsapi} from '../utils/http';
 import {convertDate} from '../utils/date';
-import {throttle} from '../utils/function'
+import {throttle,debounce} from '../utils/function'
 import Loading from './common/Loading'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -28,12 +28,12 @@ class Home extends Component {
         super(props);
         this.ref = React.createRef();
         this.state = {
-            loading:false,
-            page:1,
+            loading: false,
+            page: 1,
             articles: [],
             totalResults: null,
             input: '',
-            loadingMore:false,
+            loadingMore: false,
             // one week
             fromD: new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000),
             toD: today,
@@ -84,17 +84,15 @@ class Home extends Component {
         }
     }
 
-    componentDidMount(){
-        window.addEventListener('scroll',(e)=>{
-            throttle(()=>{
-                let body = document.documentElement;
-                if(body.scrollTop + body.clientHeight >= body.scrollHeight){
-                    this.loadMore();
-                }
-            },50).apply(this)
+    componentDidMount() {
+        window.addEventListener('scroll', (e) => {
+            let body = document.documentElement;
+            if (body.scrollTop + body.clientHeight >= body.scrollHeight) {
+                debounce(this.loadMore(),500);
+            }
         });
-        window.addEventListener('keyup',(e)=>{
-            if(e.keyCode === 13){
+        window.addEventListener('keyup', (e) => {
+            if (e.keyCode === 13) {
                 this.handleSearch();
             }
         })
@@ -102,7 +100,7 @@ class Home extends Component {
 
     loadMore = async () => {
         this.setState({
-            loadingMore:true
+            loadingMore: true
         });
         try {
             let res = await newsapi.everything({
@@ -111,10 +109,10 @@ class Home extends Component {
                 to: convertDate(this.state.toD),
                 sortBy: this.state.sortBy,
                 language: this.state.language,
-                page:++this.state.page
+                page: ++this.state.page
             });
             if (res.status === 'ok') {
-                this.setState(prevState=>({
+                this.setState(prevState => ({
                     articles: prevState.articles.concat(res.articles)
                 }))
             }
@@ -130,7 +128,7 @@ class Home extends Component {
 
     handleSearch = async () => {
         this.setState({
-            loading:true
+            loading: true
         });
         try {
             let res = await newsapi.everything({
@@ -139,16 +137,16 @@ class Home extends Component {
                 to: convertDate(this.state.toD),
                 sortBy: this.state.sortBy,
                 language: this.state.language,
-                page:this.state.page
+                page: this.state.page
             });
             if (res.status === 'ok') {
                 this.setState({
                     totalResults: res.totalResults,
                     articles: res.articles
-                },()=>{
-                    setTimeout(function() {
+                }, () => {
+                    setTimeout(function () {
                         let element = document.getElementById('article');
-                        if(element) {
+                        if (element) {
                             element.scrollIntoView({
                                 behavior: 'smooth',
                                 block: 'nearest'
@@ -179,6 +177,7 @@ class Home extends Component {
     };
 
     handleInputChange = (e) => {
+        console.log(e.target.value)
         this.setState({
             input: e.target.value
         })
@@ -188,11 +187,11 @@ class Home extends Component {
         window.open(title)
     }
 
-    handleImgLoad=(e)=>{
+    handleImgLoad = (e) => {
     };
 
     render() {
-        const {selection, fromD, toD, articles,loading,totalResults,loadingMore} = this.state;
+        const {selection, fromD, toD, articles, loading, totalResults, loadingMore} = this.state;
         return (
             <Fragment>
                 <MuiThemeProvider theme={theme}>
@@ -202,7 +201,7 @@ class Home extends Component {
                                 style={{width: '80%'}}
                                 label="Search News..."
                                 type="search"
-                                onChange={this.handleInputChange}
+                                onChange={throttle(this.handleInputChange, 500)}
                             />
                             <Button
                                 type="submit"
@@ -212,7 +211,7 @@ class Home extends Component {
                                 style={{color: '#fff'}}
                                 size={'medium'}
                             >
-                                {loading?<CircularProgress size={28} color="white"/>:'Search'}
+                                {loading ? <CircularProgress size={28} color="white"/> : 'Search'}
                             </Button>
                         </div>
                         <div className={'box home-search'}>
@@ -270,10 +269,11 @@ class Home extends Component {
                         <div className={'article-count'}>Found: {totalResults} Records</div>
                         {articles.map((item, index) => {
                             return <div key={index} className={'article-block'}>
-                                <div className={'article-frame'} onClick={()=>this.goNewsDetail(item.url)}>
+                                <div className={'article-frame'} onClick={() => this.goNewsDetail(item.url)}>
                                     <div>{item.title}</div>
                                     <div className={'article-img'}>
                                         <img
+                                            alt={'http://placeimg.com/640/480/any'}
                                             src={item.urlToImage || 'http://placehold.jp/24/cccccc/ffffff/300x150.png?text=Not%20Found'}
                                             onLoad={this.handleImgLoad}
                                         />
@@ -283,9 +283,9 @@ class Home extends Component {
                         })}
                     </div> : ''}
                 {
-                    loadingMore?<div className={'bot-loading'}>
+                    loadingMore ? <div className={'bot-loading'}>
                         <Loading/>
-                    </div>:''
+                    </div> : ''
                 }
             </Fragment>
         );
