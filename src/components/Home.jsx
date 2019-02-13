@@ -13,7 +13,9 @@ import Button from '@material-ui/core/Button';
 import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import {MuiPickersUtilsProvider, DatePicker} from 'material-ui-pickers';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const today = new Date();
 
@@ -39,6 +41,8 @@ class Home extends Component {
             toD: today,
             sortBy: 'publishedAt',
             language: 'en',
+            dialogOpen:false,
+            dialogMsg:'',
             selection: [
                 {
                     name: 'Sort By',
@@ -99,29 +103,40 @@ class Home extends Component {
     }
 
     loadMore = async () => {
-        this.setState({
-            loadingMore: true
-        });
-        try {
-            let res = await newsapi.everything({
-                q: this.state.input,
-                from: convertDate(this.state.fromD),
-                to: convertDate(this.state.toD),
-                sortBy: this.state.sortBy,
-                language: this.state.language,
-                page: ++this.state.page
-            });
-            if (res.status === 'ok') {
-                this.setState(prevState => ({
-                    articles: prevState.articles.concat(res.articles)
-                }))
-            }
-        } catch (err) {
-            console.log(err)
-        } finally {
+        if(!this.state.loadingMore){
             this.setState({
-                loadingMore: false
-            })
+                loadingMore: true
+            });
+            try {
+                let res = await newsapi.everything({
+                    q: this.state.input,
+                    from: convertDate(this.state.fromD),
+                    to: convertDate(this.state.toD),
+                    sortBy: this.state.sortBy,
+                    language: this.state.language,
+                    page: ++this.state.page
+                });
+                if (res.status === 'ok') {
+                    this.setState(prevState => ({
+                        articles: prevState.articles.concat(res.articles)
+                    }))
+                }else{
+                    this.setState({
+                        loadingMore: false
+                    })
+                }
+            } catch (err) {
+                console.log(err)
+                this.setState({
+                    loadingMore: false,
+                    dialogOpen:true,
+                    dialogMsg:err.toString()
+                });
+            } finally {
+                this.setState({
+                    loadingMore: false
+                })
+            }
         }
     };
 
@@ -156,6 +171,10 @@ class Home extends Component {
                 })
             }
         } catch (err) {
+            this.setState({
+                dialogOpen:true,
+                dialogMsg:err.toString()
+            });
             console.log(err)
         } finally {
             this.setState({
@@ -177,7 +196,6 @@ class Home extends Component {
     };
 
     handleInputChange = (e) => {
-        console.log(e.target.value)
         this.setState({
             input: e.target.value
         })
@@ -187,11 +205,20 @@ class Home extends Component {
         window.open(title)
     }
 
-    handleImgLoad = (e) => {
+    handleImgLoad = (index,src) => {
+        document.getElementById(index).setAttribute('src',src)
     };
 
+    handleDialogClose = ()=>{
+        console.log(123)
+        this.setState({
+            dialogOpen:false,
+            dialogMsg:''
+        })
+    }
+
     render() {
-        const {selection, fromD, toD, articles, loading, totalResults, loadingMore} = this.state;
+        const {selection, fromD, toD, articles, loading, totalResults, loadingMore,dialogOpen,dialogMsg} = this.state;
         return (
             <Fragment>
                 <MuiThemeProvider theme={theme}>
@@ -263,6 +290,28 @@ class Home extends Component {
                             </form>
                         </div>
                     </div>
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        open={dialogOpen}
+                        onClose={this.handleDialogClose}
+                        autoHideDuration={6000}
+                        message={
+                            <span id="message-id">Error Occurred<br/>
+                            <span>{dialogMsg}</span></span>}
+                        action={[
+                            <IconButton
+                                key="close"
+                                aria-label="Close"
+                                color="inherit"
+                                onClick={this.handleDialogClose}
+                            >
+                                <CloseIcon />
+                            </IconButton>,
+                        ]}
+                    />
                 </MuiThemeProvider>
                 {articles.length > 0 ?
                     <div className={'article-list'} id={"article"}>
@@ -273,9 +322,11 @@ class Home extends Component {
                                     <div>{item.title}</div>
                                     <div className={'article-img'}>
                                         <img
-                                            alt={'http://placeimg.com/640/480/any'}
-                                            src={item.urlToImage || 'http://placehold.jp/24/cccccc/ffffff/300x150.png?text=Not%20Found'}
-                                            onLoad={this.handleImgLoad}
+                                            id={index}
+                                            className={'img'}
+                                            alt={'Not Found'}
+                                            src={item.urlToImage?require('../static/5-121204194110-51.gif'):'http://placehold.jp/24/cccccc/ffffff/300x150.png?text=Not%20Found'}
+                                            onLoad={()=>this.handleImgLoad(index,item.urlToImage)}
                                         />
                                     </div>
                                 </div>
