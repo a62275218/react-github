@@ -89,10 +89,13 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        console.log('scroll');
         window.addEventListener('scroll', (e) => {
-            let body = document.documentElement;
-            if (body.scrollTop + body.clientHeight >= body.scrollHeight) {
-                debounce(this.loadMore(),500);
+            if(this.state.articles.length){
+                let body = document.documentElement;
+                if (body.scrollTop + body.clientHeight >= body.scrollHeight) {
+                    debounce(this.loadMore(),500);
+                }
             }
         });
         window.addEventListener('keyup', (e) => {
