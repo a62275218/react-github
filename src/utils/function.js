@@ -19,7 +19,3 @@ export const debounce = (method,delay)=>{
         },delay);
     }
 };
-
-export const reachBottom= ()=>{
-
-};

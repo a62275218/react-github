@@ -210,7 +210,6 @@ class Home extends Component {
     };
 
     handleDialogClose = ()=>{
-        console.log(123)
         this.setState({
             dialogOpen:false,
             dialogMsg:''
