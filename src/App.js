@@ -55,7 +55,7 @@ class App extends Component {
                     <TopNav device={device} mobileOpen={mobileOpen} closeToggle={this.closeToggle} handleToggle={this.handleToggle}/>
                     <Suspense fallback={<Loading global={true}/>}>
                         <Switch>
-                            <Route path='/' component={props=><Home/>} exact/>
+                            <Route path='/' component={props=><Home device={device}/>} exact/>
                             <Route path={'/top-news'} key={'top-news'} render={props=><NewsTemplate {...props}/>} onRouterEnter={match=>console.log(match)}/>
                             <Route path={'/business'} key={'business'} render={props=><NewsTemplate {...props}/>}/>
                             <Route path={'/entertainment'} key={'entertainment'} render={props=><NewsTemplate {...props}/>}/>

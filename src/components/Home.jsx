@@ -89,15 +89,43 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        console.log('scroll');
-        window.addEventListener('scroll', (e) => {
-            if(this.state.articles.length){
-                let body = document.documentElement;
-                if (body.scrollTop + body.clientHeight >= body.scrollHeight) {
-                    debounce(this.loadMore(),500);
-                }
-            }
-        });
+        console.log(this.props.device);
+        switch(this.props.device){
+            case 'pc':
+                window.addEventListener('scroll', (e) => {
+                    if(this.state.articles.length){
+                        let body = document.documentElement;
+                        if (body.scrollTop + body.clientHeight >= body.scrollHeight) {
+                            debounce(this.loadMore(),5000);
+                        }
+                    }
+                });
+                break;
+            case 'mobile':
+                let touchStart,
+                    touchDis;
+                window.addEventListener('touchstart',function (e) {
+                    console.log(e)
+                    let touch = e.touches[0];
+                    touchStart=touch.pageY;
+                },false);
+                window.addEventListener('touchmove', (e) => {
+                    console.log(e)
+                    let touch = e.targetTouches[0];
+                    touchDis = touch.pageY - touchStart;
+                    console.log(touchDis);
+                    if(this.state.articles.length && touchDis <- 100){
+                        let body = document.documentElement;
+                        if (body.scrollTop + body.clientHeight >= body.scrollHeight) {
+                            debounce(this.loadMore(),5000);
+                        }
+                    }
+                });
+                break;
+            default:
+                break;
+        }
+
         window.addEventListener('keyup', (e) => {
             if (e.keyCode === 13) {
                 this.handleSearch();
@@ -120,9 +148,15 @@ class Home extends Component {
                     page: ++this.state.page
                 });
                 if (res.status === 'ok') {
-                    this.setState(prevState => ({
-                        articles: prevState.articles.concat(res.articles)
-                    }))
+                    if(res.articles.length){
+                        this.setState(prevState => ({
+                            articles: prevState.articles.concat(res.articles)
+                        }))
+                    }else{
+                        this.setState({
+                            loadingMore: false
+                        })
+                    }
                 }else{
                     this.setState({
                         loadingMore: false
