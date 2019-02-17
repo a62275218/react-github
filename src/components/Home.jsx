@@ -94,7 +94,7 @@ class Home extends Component {
             case 'pc':
                 window.addEventListener('scroll', (e) => {
                     if(this.state.articles.length){
-                        let body = document.documentElement;
+                        let body = document.documentElement || document.body;
                         if (body.scrollTop + body.clientHeight >= body.scrollHeight) {
                             debounce(this.loadMore(),5000);
                         }
@@ -105,17 +105,15 @@ class Home extends Component {
                 let touchStart,
                     touchDis;
                 window.addEventListener('touchstart',function (e) {
-                    console.log(e)
                     let touch = e.touches[0];
                     touchStart=touch.pageY;
                 },false);
                 window.addEventListener('touchmove', (e) => {
-                    console.log(e)
                     let touch = e.targetTouches[0];
                     touchDis = touch.pageY - touchStart;
-                    console.log(touchDis);
-                    if(this.state.articles.length && touchDis <- 100){
-                        let body = document.documentElement;
+                    console.log(touchDis)
+                    if(this.state.articles.length && touchDis <= -15){
+                        let body = document.documentElement || document.body;
                         if (body.scrollTop + body.clientHeight >= body.scrollHeight) {
                             debounce(this.loadMore(),5000);
                         }

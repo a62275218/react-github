@@ -18,15 +18,18 @@ class App extends Component {
     }
 
     judgeWindowSize = ()=>{
-        let device = 'pc';
+        let device = this.state.device;
+        let compareDevice = null;
         if(window.matchMedia('(max-width: 768px)').matches){
-            device = 'mobile'
+            compareDevice = 'mobile'
         }else{
-            device = 'pc'
+            compareDevice = 'pc'
         }
-        this.setState({
-            device:device
-        })
+        if(compareDevice !== device){
+            this.setState({
+                device:compareDevice
+            })
+        }
     };
 
     handleToggle = ()=>{
@@ -44,6 +47,7 @@ class App extends Component {
     componentDidMount(){
         this.judgeWindowSize();
         window.addEventListener('resize',(e)=>{
+            e.preventDefault();
             throttle(this.judgeWindowSize(),50)
         });
     }
