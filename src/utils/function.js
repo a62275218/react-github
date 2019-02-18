@@ -19,3 +19,17 @@ export const debounce = (method,delay)=>{
         },delay);
     }
 };
+
+const body = document.documentElement || document.body;
+
+export const getDocumentHeight = ()=>{
+    return body.scrollHeight
+};
+
+export const getScrollTop = ()=>{
+    return body.scrollTop === 0? document.body.scrollTop:document.documentElement.scrollTop;
+};
+
+export const getClientHeight = ()=>{
+    return window.innerHeight || body.clientHeight
+}

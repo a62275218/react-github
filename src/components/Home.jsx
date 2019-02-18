@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {newsapi} from '../utils/http';
 import {convertDate} from '../utils/date';
-import {throttle,debounce} from '../utils/function'
+import {throttle,debounce,getDocumentHeight,getClientHeight,getScrollTop} from '../utils/function'
 import Loading from './common/Loading'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -90,6 +90,7 @@ class Home extends Component {
 
     componentDidMount() {
         console.log(this.props.device);
+        console.log(document.compatMode);
         switch(this.props.device){
             case 'pc':
                 window.addEventListener('scroll', (e) => {
@@ -111,10 +112,13 @@ class Home extends Component {
                 window.addEventListener('touchmove', (e) => {
                     let touch = e.targetTouches[0];
                     touchDis = touch.pageY - touchStart;
-                    console.log(touchDis)
-                    if(this.state.articles.length && touchDis <= -15){
-                        let body = document.documentElement || document.body;
-                        if (body.scrollTop + body.clientHeight >= body.scrollHeight) {
+                    if(this.state.articles.length && touchDis <= -100){
+                        console.log('moved');
+                        console.log(getScrollTop());
+                        console.log(getClientHeight());
+                        console.log(getDocumentHeight());
+                        if (getScrollTop() + getClientHeight() >= getDocumentHeight()) {
+                            console.log('reached');
                             debounce(this.loadMore(),5000);
                         }
                     }
@@ -178,7 +182,8 @@ class Home extends Component {
 
     handleSearch = async () => {
         this.setState({
-            loading: true
+            loading: true,
+            articles:[]
         });
         try {
             let res = await newsapi.everything({
