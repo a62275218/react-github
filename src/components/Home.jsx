@@ -89,8 +89,6 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.device);
-        console.log(document.compatMode);
         switch(this.props.device){
             case 'pc':
                 window.addEventListener('scroll', (e) => {
@@ -113,10 +111,6 @@ class Home extends Component {
                     let touch = e.targetTouches[0];
                     touchDis = touch.pageY - touchStart;
                     if(this.state.articles.length && touchDis <= -100){
-                        console.log('moved');
-                        console.log(getScrollTop());
-                        console.log(getClientHeight());
-                        console.log(getDocumentHeight());
                         if (getScrollTop() + getClientHeight() >= getDocumentHeight()) {
                             console.log('reached');
                             debounce(this.loadMore(),5000);
