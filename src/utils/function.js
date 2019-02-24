@@ -1,5 +1,5 @@
 export const throttle = (method,duration)=>{
-    let  begin=new Date();
+    let  begin= 0;
     return function(){
         let context=this, args=arguments, current=new Date();
         if(current-begin>=duration){

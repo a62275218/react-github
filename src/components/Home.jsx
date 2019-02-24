@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {newsapi} from '../utils/http';
 import {convertDate} from '../utils/date';
-import {throttle,debounce,getDocumentHeight,getClientHeight,getScrollTop} from '../utils/function'
+import {debounce,getDocumentHeight,getClientHeight,getScrollTop} from '../utils/function'
 import Loading from './common/Loading'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -175,6 +175,7 @@ class Home extends Component {
 
 
     handleSearch = async () => {
+        console.log(this.state.input)
         this.setState({
             loading: true,
             articles:[]
@@ -261,7 +262,7 @@ class Home extends Component {
                                 style={{width: '80%'}}
                                 label="Search News..."
                                 type="search"
-                                onChange={throttle(this.handleInputChange, 500)}
+                                onChange={this.handleInputChange}
                             />
                             <Button
                                 type="submit"
